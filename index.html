@@ -87,6 +87,17 @@
             animation: pulseGlow 2.5s infinite ease-in-out;
         }
 
+        /* Fade-out used when the show ends */
+        .fade-gone { opacity: 0 !important; transition: opacity 1s ease; pointer-events: none; }
+
+        /* Finale popup entrance */
+        @keyframes popIn {
+            0% { transform: scale(0.6) translateY(30px); opacity: 0; }
+            70% { transform: scale(1.04) translateY(0); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .pop-in { animation: popIn 0.9s cubic-bezier(.2,.8,.3,1) forwards; }
+
         /* Heart sparkle animation */
         @keyframes floatUp {
             0% { transform: translateY(0) rotate(0deg); opacity: 1; }
@@ -100,7 +111,7 @@
     <canvas id="particles-canvas"></canvas>
 
     <!-- Header Navigation & Music Controls -->
-    <header class="w-full p-4 flex justify-between items-center z-20 max-w-5xl mx-auto">
+    <header id="mainHeader" class="w-full p-4 flex justify-between items-center z-20 max-w-5xl mx-auto">
         <div class="flex items-center gap-2">
             <span class="text-3xl animate-bounce">🍫</span>
             <div>
@@ -225,7 +236,7 @@
         </section>
 
         <!-- LIVE LOVE COUNTER CARD -->
-        <div class="w-full mt-6 glass-card rounded-2xl p-4 text-center border border-pink-200">
+        <div id="loveCounterCard" class="w-full mt-6 glass-card rounded-2xl p-4 text-center border border-pink-200">
             <p class="text-xs uppercase tracking-widest text-choco font-extrabold mb-1">We Have Been In Love For</p>
             <div id="loveTimer" class="flex justify-center items-center gap-2 sm:gap-4 font-bold text-rose-deep text-lg sm:text-2xl font-mono">
                 <div class="bg-white/90 px-2.5 py-1 rounded-xl shadow-sm border border-pink-100">
@@ -249,7 +260,7 @@
     </main>
 
     <!-- FOOTER -->
-    <footer class="w-full text-center py-3 text-xs text-choco font-semibold z-20">
+    <footer id="mainFooter" class="w-full text-center py-3 text-xs text-choco font-semibold z-20">
         Created with endless love for Cheshta (Choco) ❤️ Happy 2nd Anniversary!
     </footer>
 
@@ -305,6 +316,39 @@
             </p>
             <button id="closeReasonBtn" class="bg-rose-deep text-white px-6 py-2 rounded-full font-bold text-sm shadow hover:bg-pink-600 transition mt-2">
                 You Are My Everything ❤️
+            </button>
+        </div>
+    </div>
+
+
+    <!-- ================= FINALE: SHOWN WHEN THE SLIDESHOW ENDS ================= -->
+    <div id="finaleOverlay" class="fixed inset-0 z-50 hidden items-center justify-center p-4" style="background: radial-gradient(circle at center, rgba(255,240,245,0.96) 0%, rgba(255,209,220,0.98) 100%);">
+        <div id="finaleCard" class="glass-card rounded-3xl max-w-md w-full p-8 text-center relative opacity-0">
+            <div class="text-6xl mb-3 animate-bounce">💖🍫💖</div>
+            <p class="font-handwriting text-3xl sm:text-4xl text-rose-deep font-bold leading-snug">
+                Love you forever Choco 😘💕
+            </p>
+            <p class="font-handwriting text-2xl sm:text-3xl text-choco font-bold leading-snug mt-3">
+                Miss you too much jaan 🥺❤️
+            </p>
+            <p class="font-cute text-lg sm:text-xl text-rose-deep mt-4 leading-relaxed">
+                Happy 2nd Anniversary to my cutiepie 🎉🥰✨
+            </p>
+
+            <div class="mt-6 pt-5 border-t border-pink-200">
+                <p class="text-sm font-bold text-choco mb-3">Now come back to talk to me babe 💬💞</p>
+                <a id="whatsappBtn"
+                   href="https://wa.me/919999513446?text=Hi%20babe%20%F0%9F%A5%B0%20maine%20poora%20slideshow%20dekh%20liya%20%F0%9F%92%96"
+                   target="_blank" rel="noopener noreferrer"
+                   class="pulse-btn inline-flex items-center gap-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-3 rounded-full font-extrabold text-sm sm:text-base shadow-lg hover:shadow-2xl transition transform hover:scale-105">
+                    <i class="fa-brands fa-whatsapp text-2xl"></i>
+                    <span>Chat with me on WhatsApp</span>
+                </a>
+                <p class="text-xs text-gray-500 mt-2 font-semibold">📱 +91 9999513446</p>
+            </div>
+
+            <button id="restartBtn" class="mt-6 bg-pink-100 hover:bg-pink-200 text-rose-deep px-5 py-2 rounded-full font-bold text-sm transition inline-flex items-center gap-2">
+                <i class="fa-solid fa-rotate-right"></i> Restart Our Story 🔄
             </button>
         </div>
     </div>
@@ -657,13 +701,67 @@
         }
 
         function nextSlide() {
-            currentSlideIdx = (currentSlideIdx + 1) % photosVault.length;
+            // Last photo already shown -> the show is over
+            if (currentSlideIdx >= photosVault.length - 1) {
+                endShow();
+                return;
+            }
+            currentSlideIdx++;
             renderSlide(currentSlideIdx);
         }
 
         function prevSlide() {
-            currentSlideIdx = (currentSlideIdx - 1 + photosVault.length) % photosVault.length;
+            if (currentSlideIdx <= 0) return;
+            currentSlideIdx--;
             renderSlide(currentSlideIdx);
+        }
+
+        /* ----------------------------------------------------
+           8b. FINALE: everything disappears, popup + WhatsApp + restart
+        ---------------------------------------------------- */
+        const FADE_TARGETS = ['mainHeader', 'slideshowSection', 'loveCounterCard', 'mainFooter'];
+
+        function endShow() {
+            if (slideshowInterval) clearInterval(slideshowInterval);
+            isPlayingSlideshow = false;
+
+            // 1. Fade everything out (photos, drive link, counter, header, footer)
+            FADE_TARGETS.forEach(id => document.getElementById(id).classList.add('fade-gone'));
+
+            // 2. Remove them completely, then show the popup
+            setTimeout(() => {
+                FADE_TARGETS.forEach(id => document.getElementById(id).classList.add('hidden'));
+
+                const overlay = document.getElementById('finaleOverlay');
+                const card = document.getElementById('finaleCard');
+                overlay.classList.remove('hidden');
+                overlay.classList.add('flex');
+                card.classList.remove('opacity-0');
+                card.classList.add('pop-in');
+
+                triggerHeartExplosion();
+                setTimeout(triggerHeartExplosion, 1500);
+            }, 1000);
+        }
+
+        function restartAll() {
+            const overlay = document.getElementById('finaleOverlay');
+            const card = document.getElementById('finaleCard');
+            overlay.classList.add('hidden');
+            overlay.classList.remove('flex');
+            card.classList.add('opacity-0');
+            card.classList.remove('pop-in');
+
+            FADE_TARGETS.forEach(id => {
+                const el = document.getElementById(id);
+                el.classList.remove('hidden', 'fade-gone');
+            });
+
+            // Back to Chapter 1, slideshow hidden again
+            document.getElementById('slideshowSection').classList.add('hidden');
+            document.getElementById('storySection').classList.remove('hidden');
+            currentSlideIdx = 0;
+            renderStep(0);
         }
 
         function toggleSlideshowPlay() {
@@ -854,6 +952,7 @@
                 if (slideshowInterval) clearInterval(slideshowInterval);
             });
 
+            document.getElementById('restartBtn').addEventListener('click', restartAll);
             document.getElementById('slideNextBtn').addEventListener('click', nextSlide);
             document.getElementById('slidePrevBtn').addEventListener('click', prevSlide);
             document.getElementById('togglePlayBtn').addEventListener('click', toggleSlideshowPlay);
