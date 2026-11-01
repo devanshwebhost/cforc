@@ -59,7 +59,7 @@
 
         /* Glassmorphism Card styling */
         .glass-card {
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.88);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border: 2px solid rgba(255, 182, 193, 0.5);
@@ -114,7 +114,7 @@
             <!-- Music Player Toggle -->
             <button id="musicToggle" class="bg-white/80 hover:bg-white text-rose-deep px-3 py-2 rounded-full shadow-md transition flex items-center gap-2 text-sm font-bold border border-pink-200">
                 <i id="musicIcon" class="fa-solid fa-music animate-spin text-pink-500"></i>
-                <!-- <span id="musicText">Play Music</span> -->
+                <span id="musicText" class="hidden sm:inline">Play Music</span>
             </button>
 
             <!-- Admin Photo Vault Modal Trigger -->
@@ -171,7 +171,7 @@
 
         <!-- ================= MODE 2: GRAND PHOTO SLIDESHOW ================= -->
         <section id="slideshowSection" class="w-full hidden transition-all duration-700">
-            <div class="glass-card rounded-3xl p-4 sm:p-8 text-center relative overflow-hidden shadow-2xl">
+            <div class="glass-card rounded-3xl p-4 sm:p-6 text-center relative overflow-hidden shadow-2xl">
                 
                 <div class="flex flex-col sm:flex-row justify-between items-center mb-4 gap-2">
                     <h2 class="text-2xl font-cute text-rose-deep">Our Journey in Pictures 📸✨</h2>
@@ -180,36 +180,45 @@
                     </button>
                 </div>
 
-                <!-- Slide Container -->
-                <div class="relative w-full aspect-[4/3] sm:aspect-[16/10] bg-choco-dark/10 rounded-2xl overflow-hidden shadow-inner flex items-center justify-center border-4 border-white">
+                <!-- Mobile-Optimized Slide Container -->
+                <div class="relative w-full h-[65vh] max-h-[580px] bg-slate-900/90 rounded-2xl overflow-hidden shadow-inner flex items-center justify-center border-4 border-white">
                     
-                    <img id="slideshowImage" src="" alt="Choco Memory" class="w-full h-full object-contain transition-all duration-700 transform scale-100">
+                    <img id="slideshowImage" src="" alt="Choco Memory" class="w-full h-full object-contain transition-all duration-500 transform scale-100">
 
                     <!-- Image Overlays/Captions -->
-                    <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 sm:p-6 text-white text-left transition-opacity duration-300">
-                        <p id="slideshowCaption" class="font-handwriting text-xl sm:text-3xl text-pink-200 font-bold drop-shadow-md">
+                    <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent p-4 text-white text-left transition-opacity duration-300">
+                        <p id="slideshowCaption" class="font-handwriting text-xl sm:text-2xl text-pink-200 font-bold drop-shadow-md">
                             "Every moment with you is magic."
                         </p>
-                        <p id="slideshowIndex" class="text-xs text-gray-300 mt-1 font-semibold">Photo 1 of 5</p>
+                        <p id="slideshowIndex" class="text-xs text-gray-300 mt-1 font-semibold">Photo 1 of 17</p>
                     </div>
 
                     <!-- Left / Right Navigation Arrows -->
-                    <button id="slidePrevBtn" class="absolute left-3 top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white text-rose-deep w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition transform hover:scale-110">
+                    <button id="slidePrevBtn" class="absolute left-2 top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white text-rose-deep w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition transform hover:scale-110">
                         <i class="fa-solid fa-chevron-left text-lg"></i>
                     </button>
-                    <button id="slideNextBtn" class="absolute right-3 top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white text-rose-deep w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition transform hover:scale-110">
+                    <button id="slideNextBtn" class="absolute right-2 top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white text-rose-deep w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition transform hover:scale-110">
                         <i class="fa-solid fa-chevron-right text-lg"></i>
                     </button>
                 </div>
 
                 <!-- Slideshow Controls Bar -->
-                <div class="flex flex-wrap justify-center items-center gap-3 mt-4 pt-2">
+                <div class="flex flex-wrap justify-center items-center gap-3 mt-4 pt-1">
                     <button id="togglePlayBtn" class="bg-rose-deep text-white px-5 py-2 rounded-full font-bold text-sm shadow hover:bg-pink-600 transition flex items-center gap-2">
                         <i id="playIcon" class="fa-solid fa-pause"></i> <span id="playText">Pause Slideshow</span>
                     </button>
                     <button id="loveReasonBtn" class="bg-pink-500 text-white px-5 py-2 rounded-full font-bold text-sm shadow hover:bg-pink-600 transition flex items-center gap-2">
                         <i class="fa-solid fa-gift animate-bounce"></i> Surprise Reason #<span id="reasonCount">1</span>
                     </button>
+                </div>
+
+                <!-- Special Drive Link (Displayed directly after slideshow or on last image) -->
+                <div id="driveLinkContainer" class="mt-5 pt-4 border-t border-pink-200 flex justify-center">
+                    <a href="https://drive.google.com" target="_blank" rel="noopener noreferrer" 
+                       class="pulse-btn inline-flex items-center gap-3 bg-gradient-to-r from-purple-600 via-pink-600 to-rose-500 text-white px-6 py-3 rounded-full font-extrabold text-sm sm:text-base shadow-lg hover:shadow-2xl transition transform hover:scale-105">
+                        <i class="fa-brands fa-google-drive text-xl"></i>
+                        <span>Babe ab ye dekho! 📁✨</span>
+                    </a>
                 </div>
 
             </div>
@@ -276,7 +285,7 @@
             <!-- Reset to Defaults Button -->
             <div class="mt-4 pt-3 border-t border-pink-100 flex justify-between items-center">
                 <button id="resetPhotosBtn" class="text-xs text-red-500 hover:text-red-700 font-bold underline">
-                    Reset to Romantic Placeholders
+                    Reset to Default Memories
                 </button>
                 <button id="saveVaultBtn" class="bg-rose-deep text-white px-5 py-2 rounded-full font-bold text-sm shadow hover:bg-pink-600">
                     Done & View Slideshow ✨
@@ -288,7 +297,7 @@
 
     <!-- ================= MODAL: REASON WHY I LOVE YOU POPUP ================= -->
     <div id="reasonModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="glass-card rounded-3xl max-w-md w-full p-6 text-center relative animate-bounce-short">
+        <div class="glass-card rounded-3xl max-w-md w-full p-6 text-center relative">
             <div class="text-5xl mb-3">💝</div>
             <h3 class="text-xl font-cute text-rose-deep mb-2">Why I Love You, Choco #<span id="modalReasonNum">1</span></h3>
             <p id="modalReasonText" class="font-handwriting text-2xl text-choco font-bold my-4 leading-relaxed">
@@ -302,7 +311,6 @@
 
 
     <!-- AUDIO ELEMENT FOR BACKGROUND MUSIC -->
-    <!-- Sweet soft instrumental love track from public domain / free license source -->
     <audio id="bgMusic" loop preload="auto">
         <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-love-piano-112187.mp3" type="audio/mp3">
     </audio>
@@ -406,24 +414,84 @@
         ];
 
         /* ----------------------------------------------------
-           3. FALLBACK DEFAULT ROMANTIC PHOTOS
+           3. EXACT UPDATED MEMORY PHOTOS LIST
         ---------------------------------------------------- */
         const defaultPhotos = [
             {
-                url: 'https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=800&q=80',
-                caption: 'Hand in hand, walking together forever 💖'
+                url: 'https://res.cloudinary.com/dsi8rmtfp/image/upload/v1793530618/EA062EE1-518A-4247-B957-69693481FCC2_hm9jee.jpg',
+                caption: 'Jahan se sab shuru hua... 💖'
             },
             {
-                url: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=800&q=80',
-                caption: 'Two years of pure laughter and happiness ✨'
+                url: 'https://res.cloudinary.com/dsi8rmtfp/image/upload/v1793531553/IMG_6988_gbefdc.jpg',
+                caption: 'Chand ke liye chand 🌙✨'
             },
             {
-                url: 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=800&q=80',
-                caption: 'To my dearest Choco—You make life magical 🍫'
+                url: 'https://res.cloudinary.com/dsi8rmtfp/image/upload/v1793530621/15b6de8a-5bda-4568-afa6-7b29980bf491_jdisge.jpg',
+                caption: 'Cube aesthetic memories 🧊💖'
             },
             {
-                url: 'https://images.unsplash.com/photo-1494774157365-9e04c6720e47?auto=format&fit=crop&w=800&q=80',
-                caption: 'Forever grateful for 2nd Nov 2024 🌹'
+                url: 'https://res.cloudinary.com/dsi8rmtfp/image/upload/v1793530620/6d5e1385-bc46-4a49-91cf-de0372e2099c_by5n8l.jpg',
+                caption: 'My absolute prettiest 📸✨'
+            },
+            {
+                url: 'https://res.cloudinary.com/dsi8rmtfp/image/upload/v1793530621/IMG_0936_v2qkfq.jpg',
+                caption: 'Forever favorite portrait 🌹'
+            },
+            {
+                url: 'https://res.cloudinary.com/dsi8rmtfp/image/upload/v1793531383/IMG_7001_pkqe9a.png',
+                caption: 'Aapka birthday wish jo aapne mujhe raat ko jag kar kiya tha 🎂❤️'
+            },
+            {
+                url: 'https://res.cloudinary.com/dsi8rmtfp/image/upload/v1793531370/IMG_7002_vxq9r8.png',
+                caption: 'Hamne saath me Ghibli image trend kiya tha ✨'
+            },
+            {
+                url: 'https://res.cloudinary.com/dsi8rmtfp/image/upload/v1793531299/IMG_7004_g6ofyq.png',
+                caption: 'Another Ghibli memory together 🎨✨'
+            },
+            {
+                url: 'https://res.cloudinary.com/dsi8rmtfp/image/upload/v1793531341/IMG_7005_asc6pz.png',
+                caption: 'Aapne mujhe mention kiya tha story me 📲💖'
+            },
+            {
+                url: 'https://res.cloudinary.com/dsi8rmtfp/image/upload/v1793531335/IMG_6990_padude.png',
+                caption: 'The perfect duo 👫✨'
+            },
+            {
+                url: 'https://res.cloudinary.com/dsi8rmtfp/image/upload/v1793531334/IMG_6989_pwtbes.png',
+                caption: 'Aapne mujhe Cinderella bola... awww so cute! 👑🥹'
+            },
+            {
+                url: 'https://res.cloudinary.com/dsi8rmtfp/image/upload/v1793531322/IMG_6991_wuhwlv.png',
+                caption: 'Main sirf aapse hi darta hu... hence proved 🙈'
+            },
+            {
+                url: 'https://res.cloudinary.com/dsi8rmtfp/image/upload/v1793531317/IMG_6994_ke5eon.png',
+                caption: 'Mujhe kon dara sakta hai? It\'s you 💖'
+            },
+            {
+                url: 'https://res.cloudinary.com/dsi8rmtfp/image/upload/v1793531306/IMG_6995_du2wxt.png',
+                caption: 'Still proved... strictly you! 😅❤️'
+            },
+            {
+                url: 'https://res.cloudinary.com/dsi8rmtfp/image/upload/v1793531297/IMG_6996_sznwts.png',
+                caption: 'You\'re my everything 💖'
+            },
+            {
+                url: 'https://res.cloudinary.com/dsi8rmtfp/image/upload/v1793531280/IMG_7003_qrm7iz.png',
+                caption: 'Us core 💕'
+            },
+            {
+                url: 'https://res.cloudinary.com/dsi8rmtfp/image/upload/v1793531275/IMG_7006_kkkpri.png',
+                caption: 'Your eyes melt me 👀✨'
+            },
+            {
+                url: 'https://res.cloudinary.com/dsi8rmtfp/image/upload/v1793531265/IMG_6999_uxbmgt.png',
+                caption: 'When I realise mene galat kiya... sorry babe 🥺❤️'
+            },
+            {
+                url: 'https://res.cloudinary.com/dsi8rmtfp/image/upload/v1793531264/IMG_7008_vr1dyr.png',
+                caption: 'Now it\'s final - we are together always ♾️💖'
             }
         ];
 
@@ -455,6 +523,11 @@
             if (saved) {
                 try {
                     photosVault = JSON.parse(saved);
+                    // If user had old cache without new length, update to default
+                    if (photosVault.length < defaultPhotos.length) {
+                        photosVault = defaultPhotos;
+                        localStorage.setItem('choco_anniversary_photos', JSON.stringify(photosVault));
+                    }
                 } catch(e) {
                     photosVault = defaultPhotos;
                 }
@@ -480,7 +553,7 @@
             loadedImageCache = [];
             let loadedCount = 0;
 
-            photosVault.forEach((item, idx) => {
+            photosVault.forEach((item) => {
                 const img = new Image();
                 img.src = item.url;
                 img.onload = () => {
@@ -512,7 +585,6 @@
             const nextBtn = document.getElementById('nextBtn');
             const stepNum = document.getElementById('currentStepNum');
 
-            // Fade animation
             cardContent.classList.add('opacity-0');
 
             setTimeout(() => {
@@ -524,14 +596,12 @@
                 `;
                 cardContent.classList.remove('opacity-0');
 
-                // Re-bind click event for special reveal button on step 4
                 const revealBtn = document.getElementById('revealGalleryBtn');
                 if (revealBtn) {
                     revealBtn.addEventListener('click', switchToSlideshowMode);
                 }
             }, 200);
 
-            // Button state updates
             if (stepIdx === 0) {
                 prevBtn.classList.add('opacity-50', 'cursor-not-allowed');
                 prevBtn.disabled = true;
@@ -561,7 +631,7 @@
             currentSlideIdx = 0;
             renderSlide(currentSlideIdx);
             if (slideshowInterval) clearInterval(slideshowInterval);
-            slideshowInterval = setInterval(nextSlide, 4000);
+            slideshowInterval = setInterval(nextSlide, 4500);
             isPlayingSlideshow = true;
             updatePlayBtnUI();
         }
@@ -575,16 +645,15 @@
 
             const item = photosVault[index];
 
-            // Smooth cross-fade transition effect
-            imgEl.classList.add('opacity-30', 'scale-95');
+            imgEl.classList.add('opacity-20', 'scale-95');
             
             setTimeout(() => {
                 imgEl.src = item.url;
                 captionEl.textContent = item.caption || `"Forever with you, Choco ❤️"`;
                 indexEl.textContent = `Photo ${index + 1} of ${photosVault.length}`;
 
-                imgEl.classList.remove('opacity-30', 'scale-95');
-            }, 300);
+                imgEl.classList.remove('opacity-20', 'scale-95');
+            }, 250);
         }
 
         function nextSlide() {
@@ -602,7 +671,7 @@
                 clearInterval(slideshowInterval);
                 isPlayingSlideshow = false;
             } else {
-                slideshowInterval = setInterval(nextSlide, 4000);
+                slideshowInterval = setInterval(nextSlide, 4500);
                 isPlayingSlideshow = true;
             }
             updatePlayBtnUI();
@@ -631,7 +700,6 @@
                 const diff = now - startDate;
 
                 if (diff < 0) {
-                    // In case system time is before start date
                     document.getElementById('timerDays').textContent = '00';
                     document.getElementById('timerHours').textContent = '00';
                     document.getElementById('timerMins').textContent = '00';
@@ -768,7 +836,6 @@
            12. EVENT LISTENERS
         ---------------------------------------------------- */
         function setupEventListeners() {
-            // Storybook Prev / Next
             document.getElementById('nextBtn').addEventListener('click', () => {
                 if (currentStoryStep < storyCards.length - 1) {
                     renderStep(currentStoryStep + 1);
@@ -781,19 +848,16 @@
                 }
             });
 
-            // Re-read story
             document.getElementById('backToStoryBtn').addEventListener('click', () => {
                 document.getElementById('slideshowSection').classList.add('hidden');
                 document.getElementById('storySection').classList.remove('hidden');
                 if (slideshowInterval) clearInterval(slideshowInterval);
             });
 
-            // Slideshow controls
             document.getElementById('slideNextBtn').addEventListener('click', nextSlide);
             document.getElementById('slidePrevBtn').addEventListener('click', prevSlide);
             document.getElementById('togglePlayBtn').addEventListener('click', toggleSlideshowPlay);
 
-            // Audio Player Toggle
             const musicBtn = document.getElementById('musicToggle');
             const bgMusic = document.getElementById('bgMusic');
             const musicIcon = document.getElementById('musicIcon');
@@ -818,7 +882,6 @@
                 }
             });
 
-            // Love Reason Modal
             const reasonModal = document.getElementById('reasonModal');
             const reasonBtn = document.getElementById('loveReasonBtn');
             const closeReasonBtn = document.getElementById('closeReasonBtn');
@@ -835,7 +898,6 @@
                 reasonModal.classList.add('hidden');
             });
 
-            // Photo Vault Modal
             const vaultModal = document.getElementById('vaultModal');
             document.getElementById('openVaultBtn').addEventListener('click', () => {
                 vaultModal.classList.remove('hidden');
@@ -848,13 +910,11 @@
                 switchToSlideshowMode();
             });
 
-            // Reset photos to default
             document.getElementById('resetPhotosBtn').addEventListener('click', () => {
                 photosVault = [...defaultPhotos];
                 savePhotosToStorage();
             });
 
-            // Drag and drop photo upload
             const dropArea = document.getElementById('dropArea');
             const photoInput = document.getElementById('photoInput');
 
