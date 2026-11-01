@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Happy 2nd Anniversary, My Choco! 🍫💖</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -41,11 +41,9 @@
     <style>
         body {
             font-family: 'Nunito', sans-serif;
-            background: linear-gradient(135deg, #2b0b18 0%, #4a1226 50%, #1f0510 100%);
-            color: #fff;
+            background: linear-gradient(135deg, #fff0f5 0%, #ffe4e1 50%, #ffd1dc 100%);
             min-height: 100vh;
             overflow-x: hidden;
-            touch-action: manipulation;
         }
 
         /* Floating particles canvas */
@@ -56,22 +54,34 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 5;
+            z-index: 10;
         }
 
-        /* Mobile Glassmorphism Card styling */
+        /* Glassmorphism Card styling */
         .glass-card {
-            background: rgba(255, 255, 255, 0.12);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 182, 193, 0.3);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 2px solid rgba(255, 182, 193, 0.5);
+            box-shadow: 0 15px 35px rgba(233, 30, 99, 0.15);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #ffe4e1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #ff80ab;
+            border-radius: 10px;
         }
 
         /* Pulsing Glow Animation */
         @keyframes pulseGlow {
-            0%, 100% { box-shadow: 0 0 15px rgba(233, 30, 99, 0.5); transform: scale(1); }
-            50% { box-shadow: 0 0 30px rgba(233, 30, 99, 0.9); transform: scale(1.03); }
+            0%, 100% { box-shadow: 0 0 15px rgba(233, 30, 99, 0.4); transform: scale(1); }
+            50% { box-shadow: 0 0 30px rgba(233, 30, 99, 0.8); transform: scale(1.03); }
         }
         .pulse-btn {
             animation: pulseGlow 2.5s infinite ease-in-out;
@@ -82,52 +92,94 @@
             0% { transform: translateY(0) rotate(0deg); opacity: 1; }
             100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
         }
-
-        /* Mobile friendly image frame scaling */
-        .photo-frame-container {
-            width: 100%;
-            height: 62vh;
-            max-height: 520px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: rgba(0, 0, 0, 0.6);
-            border-radius: 1.25rem;
-            position: relative;
-            overflow: hidden;
-        }
     </style>
 </head>
-<body class="relative flex flex-col justify-between items-center text-gray-100 selection:bg-pink-400 selection:text-white">
+<body class="relative flex flex-col justify-between text-gray-800 selection:bg-pink-300 selection:text-pink-900">
 
-    <!-- Floating Particles Canvas -->
+    <!-- Particle Effect Canvas for Floating Hearts & Stars -->
     <canvas id="particles-canvas"></canvas>
 
-    <!-- MOBILE CONTAINER (Max width 480px) -->
-    <div class="w-full max-w-[480px] min-h-screen flex flex-col justify-between p-4 z-20 relative">
-
-        <!-- HEADER -->
-        <header class="w-full flex justify-between items-center py-2 mb-2">
-            <div class="flex items-center gap-2">
-                <span class="text-3xl animate-bounce">🍫</span>
-                <div>
-                    <h1 class="font-cute text-xl text-pink-300 drop-shadow">Cheshta & Me</h1>
-                    <p class="text-[11px] text-pink-200 font-semibold tracking-wide">2nd Anniversary • 2 Nov 2024 ➔ 2 Nov 2026</p>
-                </div>
+    <!-- Header Navigation & Music Controls -->
+    <header class="w-full p-4 flex justify-between items-center z-20 max-w-5xl mx-auto">
+        <div class="flex items-center gap-2">
+            <span class="text-3xl animate-bounce">🍫</span>
+            <div>
+                <h1 class="font-cute text-xl sm:text-2xl text-rose-deep drop-shadow">Cheshta & Me</h1>
+                <p class="text-xs text-choco font-semibold">2nd Anniversary • Nov 2, 2024 - Forever</p>
             </div>
+        </div>
 
+        <!-- Action Buttons Top Right -->
+        <div class="flex items-center gap-3">
             <!-- Music Player Toggle -->
-            <button id="musicToggle" class="bg-white/20 hover:bg-white/30 text-pink-200 px-3 py-1.5 rounded-full shadow-md transition flex items-center gap-2 text-xs font-bold border border-pink-300/40 backdrop-blur-md">
-                <i id="musicIcon" class="fa-solid fa-music text-pink-400"></i>
+            <button id="musicToggle" class="bg-white/80 hover:bg-white text-rose-deep px-3 py-2 rounded-full shadow-md transition flex items-center gap-2 text-sm font-bold border border-pink-200">
+                <i id="musicIcon" class="fa-solid fa-music animate-spin text-pink-500"></i>
                 <span id="musicText">Play Music</span>
             </button>
-        </header>
+
+            <!-- Admin Photo Vault Modal Trigger -->
+            <button id="openVaultBtn" title="Manage Photos" class="bg-white/80 hover:bg-white text-choco px-3 py-2 rounded-full shadow-md transition text-sm font-bold border border-pink-200 flex items-center gap-1">
+                <i class="fa-solid fa-images text-pink-500"></i>
+                <span class="hidden sm:inline">Photo Vault</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="w-full max-w-3xl mx-auto px-4 py-4 z-20 flex-grow flex flex-col justify-center items-center">
+
+        <!-- ================= MODE 1: STORYBOOK POEM READER ================= -->
+        <section id="storySection" class="w-full transition-all duration-700">
+            <!-- Card Wrapper -->
+            <div id="storyCard" class="glass-card rounded-3xl p-6 sm:p-10 text-center relative overflow-hidden transition-all duration-500 min-h-[420px] flex flex-col justify-between">
+                
+                <!-- Card Corner Decorations -->
+                <div class="absolute -top-6 -left-6 text-6xl text-pink-200 opacity-60 pointer-events-none font-handwriting">✨</div>
+                <div class="absolute -bottom-6 -right-6 text-6xl text-pink-200 opacity-60 pointer-events-none font-handwriting">💖</div>
+
+                <!-- Step Indicator -->
+                <div class="flex justify-center items-center gap-2 mb-4">
+                    <span class="text-xs font-bold text-rose-deep tracking-widest uppercase bg-pink-100 px-3 py-1 rounded-full">
+                        Chapter <span id="currentStepNum">1</span> of 4
+                    </span>
+                </div>
+
+                <!-- Card Dynamic Content -->
+                <div id="cardContent" class="my-auto py-4 transition-opacity duration-300 opacity-100">
+                    <!-- Dynamic text inserted via JS -->
+                </div>
+
+                <!-- Bottom Navigation Buttons -->
+                <div class="flex justify-between items-center mt-6 pt-4 border-t border-pink-100">
+                    <button id="prevBtn" class="bg-gray-100 hover:bg-gray-200 text-gray-600 px-5 py-2.5 rounded-full font-bold text-sm transition opacity-50 cursor-not-allowed flex items-center gap-2">
+                        <i class="fa-solid fa-arrow-left"></i> Back
+                    </button>
+
+                    <!-- Preloader status badge -->
+                    <div id="preloadStatus" class="text-xs text-rose-deep font-semibold hidden sm:flex items-center gap-1.5 bg-rose-50 px-3 py-1.5 rounded-full border border-pink-200">
+                        <i class="fa-solid fa-spinner fa-spin text-pink-500"></i>
+                        <span>Caching Memory Photos...</span>
+                    </div>
+
+                    <button id="nextBtn" class="bg-gradient-to-r from-pink-500 to-rose-deep hover:from-pink-600 hover:to-rose-600 text-white px-6 py-2.5 rounded-full font-bold text-sm shadow-lg hover:shadow-xl transition transform hover:-translate-y-0.5 flex items-center gap-2">
+                        Next Chapter <i class="fa-solid fa-heart"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
 
 
-        <!-- MAIN INTERACTIVE DISPLAY AREA -->
-        <main class="w-full my-auto flex flex-col justify-center items-center">
+        <!-- ================= MODE 2: GRAND PHOTO SLIDESHOW ================= -->
+        <section id="slideshowSection" class="w-full hidden transition-all duration-700">
+            <div class="glass-card rounded-3xl p-4 sm:p-8 text-center relative overflow-hidden shadow-2xl">
+                
+                <div class="flex flex-col sm:flex-row justify-between items-center mb-4 gap-2">
+                    <h2 class="text-2xl font-cute text-rose-deep">Our Journey in Pictures 📸✨</h2>
+                    <button id="backToStoryBtn" class="text-xs bg-pink-100 hover:bg-pink-200 text-rose-deep font-bold px-3 py-1.5 rounded-full transition">
+                        <i class="fa-solid fa-book-open mr-1"></i> Re-read Poems
+                    </button>
+                </div>
 
-            <!-- ================= MODE 1: STORYBOOK POEM READER ================= -->
                 <!-- Slide Container -->
                 <div class="relative w-full aspect-[4/3] sm:aspect-[16/10] bg-choco-dark/10 rounded-2xl overflow-hidden shadow-inner flex items-center justify-center border-4 border-white">
                     
@@ -158,97 +210,79 @@
                     <button id="loveReasonBtn" class="bg-pink-500 text-white px-5 py-2 rounded-full font-bold text-sm shadow hover:bg-pink-600 transition flex items-center gap-2">
                         <i class="fa-solid fa-gift animate-bounce"></i> Surprise Reason #<span id="reasonCount">1</span>
                     </button>
-                    <!-- Google Drive Surprise Button -->
-                    <a id="driveLinkBtn" href="https://drive.google.com/drive/u/0/my-drive" target="_blank" rel="noopener noreferrer" class="pulse-btn bg-gradient-to-r from-amber-400 via-rose-deep to-pink-500 text-white px-5 py-2 rounded-full font-extrabold text-sm shadow-lg hover:shadow-xl transition flex items-center gap-2 transform hover:scale-105">
-                        <i class="fa-solid fa-circle-play text-yellow-300 animate-pulse text-base"></i> Now check this babe! 🎥❤️
-                    </a>
                 </div>
 
             </div>
         </section>
 
-
-            <!-- ================= MODE 2: MOBILE PHOTO STORY SLIDESHOW ================= -->
-            <section id="slideshowSection" class="w-full hidden transition-all duration-500">
-                <div class="glass-card rounded-3xl p-3 text-center relative overflow-hidden shadow-2xl border border-pink-300/40">
-                    
-                    <!-- Header Actions -->
-                    <div class="flex justify-between items-center mb-3 px-1">
-                        <h2 class="text-lg font-cute text-pink-200 flex items-center gap-1.5">
-                            <span>Our Story</span> <span class="text-xs text-pink-300 font-sans font-bold" id="slideshowIndex">(1/20)</span>
-                        </h2>
-                        <button id="backToStoryBtn" class="text-[11px] bg-pink-900/60 hover:bg-pink-800/80 text-pink-200 font-bold px-3 py-1 rounded-full border border-pink-400/30">
-                            <i class="fa-solid fa-book-open mr-1"></i> Poems
-                        </button>
-                    </div>
-
-                    <!-- Slide Container (Optimized for Snapshots / IG Stories) -->
-                    <div id="swipeArea" class="photo-frame-container shadow-inner border border-white/10">
-                        
-                        <!-- Main Displayed Image with Object Contain for non-cut screenshots -->
-                        <img id="slideshowImage" src="" alt="Choco Memory" class="w-full h-full object-contain transition-all duration-500 transform scale-100">
-
-                        <!-- Story Title & Caption Overlay -->
-                        <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent p-4 text-left backdrop-blur-[2px]">
-                            <span id="slideshowTitle" class="text-xs uppercase font-extrabold text-pink-400 tracking-wider block mb-1">
-                                Memory Title
-                            </span>
-                            <p id="slideshowCaption" class="font-handwriting text-xl sm:text-2xl text-pink-100 font-bold drop-shadow">
-                                "Caption goes here..."
-                            </p>
-                        </div>
-
-                        <!-- Touch Navigation Overlays (Left/Right Tap) -->
-                        <button id="slidePrevBtn" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white w-9 h-9 rounded-full flex items-center justify-center border border-white/20">
-                            <i class="fa-solid fa-chevron-left text-sm"></i>
-                        </button>
-                        <button id="slideNextBtn" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white w-9 h-9 rounded-full flex items-center justify-center border border-white/20">
-                            <i class="fa-solid fa-chevron-right text-sm"></i>
-                        </button>
-                    </div>
-
-                    <!-- Controls & Interactive Buttons -->
-                    <div class="flex justify-between items-center gap-2 mt-3 px-1">
-                        <button id="togglePlayBtn" class="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-full font-bold text-xs shadow border border-white/20 flex items-center gap-1.5">
-                            <i id="playIcon" class="fa-solid fa-pause text-pink-400"></i> <span id="playText">Pause</span>
-                        </button>
-                        <button id="loveReasonBtn" class="bg-gradient-to-r from-pink-500 to-rose-600 text-white px-4 py-2 rounded-full font-bold text-xs shadow-lg flex items-center gap-1.5">
-                            <i class="fa-solid fa-gift animate-bounce"></i> Reason #<span id="reasonCount">1</span>
-                        </button>
-                    </div>
-
+        <!-- LIVE LOVE COUNTER CARD -->
+        <div class="w-full mt-6 glass-card rounded-2xl p-4 text-center border border-pink-200">
+            <p class="text-xs uppercase tracking-widest text-choco font-extrabold mb-1">We Have Been In Love For</p>
+            <div id="loveTimer" class="flex justify-center items-center gap-2 sm:gap-4 font-bold text-rose-deep text-lg sm:text-2xl font-mono">
+                <div class="bg-white/90 px-2.5 py-1 rounded-xl shadow-sm border border-pink-100">
+                    <span id="timerDays">00</span><span class="text-xs text-choco font-sans block">Days</span>
                 </div>
-            </section>
+                <span>:</span>
+                <div class="bg-white/90 px-2.5 py-1 rounded-xl shadow-sm border border-pink-100">
+                    <span id="timerHours">00</span><span class="text-xs text-choco font-sans block">Hours</span>
+                </div>
+                <span>:</span>
+                <div class="bg-white/90 px-2.5 py-1 rounded-xl shadow-sm border border-pink-100">
+                    <span id="timerMins">00</span><span class="text-xs text-choco font-sans block">Mins</span>
+                </div>
+                <span>:</span>
+                <div class="bg-white/90 px-2.5 py-1 rounded-xl shadow-sm border border-pink-100">
+                    <span id="timerSecs">00</span><span class="text-xs text-choco font-sans block">Secs</span>
+                </div>
+            </div>
+        </div>
 
-            <!-- LIVE LOVE COUNTER CARD -->
-            <div class="w-full mt-4 glass-card rounded-2xl p-3.5 text-center border border-pink-300/30">
-                <p class="text-[10px] uppercase tracking-widest text-pink-300 font-extrabold mb-1">In Love Since 2 Nov 2024</p>
-                <div id="loveTimer" class="flex justify-center items-center gap-2 font-bold text-pink-200 text-base font-mono">
-                    <div class="bg-black/40 px-2 py-1 rounded-lg border border-pink-400/20">
-                        <span id="timerDays">00</span><span class="text-[9px] text-pink-300/80 font-sans block">Days</span>
-                    </div>
-                    <span>:</span>
-                    <div class="bg-black/40 px-2 py-1 rounded-lg border border-pink-400/20">
-                        <span id="timerHours">00</span><span class="text-[9px] text-pink-300/80 font-sans block">Hours</span>
-                    </div>
-                    <span>:</span>
-                    <div class="bg-black/40 px-2 py-1 rounded-lg border border-pink-400/20">
-                        <span id="timerMins">00</span><span class="text-[9px] text-pink-300/80 font-sans block">Mins</span>
-                    </div>
-                    <span>:</span>
-                    <div class="bg-black/40 px-2 py-1 rounded-lg border border-pink-400/20">
-                        <span id="timerSecs">00</span><span class="text-[9px] text-pink-300/80 font-sans block">Secs</span>
-                    </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="w-full text-center py-3 text-xs text-choco font-semibold z-20">
+        Created with endless love for Cheshta (Choco) ❤️ Happy 2nd Anniversary!
+    </footer>
+
+
+    <!-- ================= MODAL: PHOTO VAULT MANAGER (LOCAL STORAGE) ================= -->
+    <div id="vaultModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="glass-card rounded-3xl max-w-xl w-full p-6 relative max-h-[90vh] flex flex-col">
+            <button id="closeVaultBtn" class="absolute top-4 right-4 text-gray-400 hover:text-rose-deep text-xl font-bold">
+                <i class="fa-solid fa-circle-xmark"></i>
+            </button>
+
+            <h3 class="text-2xl font-cute text-rose-deep mb-1">Choco's Photo Vault 🖼️</h3>
+            <p class="text-xs text-gray-600 mb-4">Upload photos directly into your browser's local storage for instant zero-lag loading!</p>
+
+            <!-- Upload Box -->
+            <div class="border-2 border-dashed border-pink-300 rounded-2xl p-4 text-center bg-pink-50/50 hover:bg-pink-50 transition cursor-pointer mb-4" id="dropArea">
+                <input type="file" id="photoInput" multiple accept="image/*" class="hidden">
+                <label for="photoInput" class="cursor-pointer flex flex-col items-center">
+                    <i class="fa-solid fa-cloud-arrow-up text-3xl text-rose-deep mb-2"></i>
+                    <span class="text-sm font-bold text-choco">Click or Drag & Drop Photos Here</span>
+                    <span class="text-xs text-gray-400 mt-1">Recommended format: JPG/PNG (Saved locally in base64)</span>
+                </label>
+            </div>
+
+            <!-- Preloaded / Custom Image Thumbnails Grid -->
+            <div class="flex-grow overflow-y-auto pr-1">
+                <h4 class="text-xs font-bold text-choco uppercase tracking-wider mb-2">Current Saved Photos (<span id="photoCount">0</span>)</h4>
+                <div id="photoGrid" class="grid grid-cols-3 gap-3">
+                    <!-- Dynamic thumbs inserted here -->
                 </div>
             </div>
 
-        </main>
-
-        <!-- FOOTER -->
-        <footer class="w-full text-center py-2 text-[11px] text-pink-300/80 font-semibold">
-            Made with endless love for Cheshta (Choco) ❤️ Happy 2nd Anniversary!
-        </footer>
-
+            <!-- Reset to Defaults Button -->
+            <div class="mt-4 pt-3 border-t border-pink-100 flex justify-between items-center">
+                <button id="resetPhotosBtn" class="text-xs text-red-500 hover:text-red-700 font-bold underline">
+                    Reset to Romantic Placeholders
+                </button>
+                <button id="saveVaultBtn" class="bg-rose-deep text-white px-5 py-2 rounded-full font-bold text-sm shadow hover:bg-pink-600">
+                    Done & View Slideshow ✨
+                </button>
+            </div>
+        </div>
     </div>
 
 
@@ -266,29 +300,9 @@
         </div>
     </div>
 
-    <!-- ================= MODAL: GRAND FINALE VIDEO LINK POPUP ================= -->
-    <div id="finaleModal" class="fixed inset-0 bg-black/70 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
-        <div class="glass-card rounded-3xl max-w-md w-full p-6 sm:p-8 text-center relative shadow-2xl border-2 border-pink-300">
-            <button id="closeFinaleBtn" class="absolute top-4 right-4 text-gray-400 hover:text-rose-deep text-xl font-bold">
-                <i class="fa-solid fa-circle-xmark"></i>
-            </button>
-            <div class="text-6xl mb-3 animate-bounce">🎬🍿</div>
-            <h3 class="text-2xl font-cute text-rose-deep mb-2">One Last Surprise For You!</h3>
-            <p class="text-sm text-choco font-semibold mb-6 leading-relaxed">
-                Aapne saari memories dekh li! Par ek special video aapka wait kar raha hai... 💖
-            </p>
-            
-            <!-- Replace the href below with your Google Drive Video Link -->
-            <a href="https://drive.google.com/drive/u/0/my-drive" target="_blank" rel="noopener noreferrer" class="pulse-btn inline-block w-full bg-gradient-to-r from-pink-500 via-rose-deep to-amber-500 text-white font-extrabold px-6 py-4 rounded-full text-lg shadow-xl transform hover:scale-105 transition tracking-wide">
-                Now check this babe! 🎥❤️
-            </a>
-
-            <p class="text-xs text-gray-500 mt-4 italic">Clicking will open your special anniversary video in Google Drive</p>
-        </div>
-    </div>
-
 
     <!-- AUDIO ELEMENT FOR BACKGROUND MUSIC -->
+    <!-- Sweet soft instrumental love track from public domain / free license source -->
     <audio id="bgMusic" loop preload="auto">
         <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-love-piano-112187.mp3" type="audio/mp3">
     </audio>
@@ -297,113 +311,7 @@
     <!-- ================= JAVASCRIPT LOGIC ================= -->
     <script>
         /* ----------------------------------------------------
-           1. EXACT CLOUDINARY MEMORIES IN STORYLINE ORDER
-        ---------------------------------------------------- */
-        const storylineMemories = [
-            {
-                title: "Where It All Began 💫",
-                url: "https://res.cloudinary.com/dsi8rmtfp/image/upload/v1793530618/EA062EE1-518A-4247-B957-69693481FCC2_hm9jee.jpg",
-                caption: "Jahan se sab shuru hua... Our starting point 💖"
-            },
-            {
-                title: "Chaand Ke Liye Chaand 🌙",
-                url: "https://res.cloudinary.com/dsi8rmtfp/image/upload/v1793531553/IMG_6988_gbefdc.jpg",
-                caption: "Chand ke liye chand... ✨"
-            },
-            {
-                title: "Late Night Birthday Wish 🎂",
-                url: "https://res.cloudinary.com/dsi8rmtfp/image/upload/v1793531383/IMG_7001_pkqe9a.png",
-                caption: "Aapka birthday wish jo aapne mujhe raat ko jag kar kiya tha ❤️"
-            },
-            {
-                title: "Ghibli Trend Part 1 🎨",
-                url: "https://res.cloudinary.com/dsi8rmtfp/image/upload/v1793531370/IMG_7002_vxq9r8.png",
-                caption: "Hamne saath me Ghibli image trend kiya tha!"
-            },
-            {
-                title: "Ghibli Trend Part 2 💫",
-                url: "https://res.cloudinary.com/dsi8rmtfp/image/upload/v1793531299/IMG_7004_g6ofyq.png",
-                caption: "Another sweet Ghibli art moment together ✨"
-            },
-            {
-                title: "Mentioned Me In Story 💖",
-                url: "https://res.cloudinary.com/dsi8rmtfp/image/upload/v1793531341/IMG_7005_asc6pz.png",
-                caption: "Aapne mujhe story me mention kiya tha awww!"
-            },
-            {
-                title: "The Perfect Duo 👩‍❤️‍👨",
-                url: "https://res.cloudinary.com/dsi8rmtfp/image/upload/v1793531335/IMG_6990_padude.png",
-                caption: "Just you and me—The Perfect Duo."
-            },
-            {
-                title: "Cinderella Moment 👑",
-                url: "https://res.cloudinary.com/dsi8rmtfp/image/upload/v1793531334/IMG_6989_pwtbes.png",
-                caption: "Aapne mujhe Cinderella bola... so cute! 🥰"
-            },
-            {
-                title: "Who Scares Me? (Part 1) 🫣",
-                url: "https://res.cloudinary.com/dsi8rmtfp/image/upload/v1793531322/IMG_6991_wuhwlv.png",
-                caption: "Me sirf aapse hi darta hu... hence proved! 🙈"
-            },
-            {
-                title: "Who Scares Me? (Part 2) 😳",
-                url: "https://res.cloudinary.com/dsi8rmtfp/image/upload/v1793531317/IMG_6994_ke5eon.png",
-                caption: "Mujhe kon dara sakta hai? Its YOU!"
-            },
-            {
-                title: "Who Scares Me? (Part 3) 💘",
-                url: "https://res.cloudinary.com/dsi8rmtfp/image/upload/v1793531316/IMG_6992_j5i8yk.png",
-                caption: "Only my Choco rules over me ❤️"
-            },
-            {
-                title: "Who Scares Me? (Part 4) 🔒",
-                url: "https://res.cloudinary.com/dsi8rmtfp/image/upload/v1793531306/IMG_6995_du2wxt.png",
-                caption: "Proof that I am forever yours!"
-            },
-            {
-                title: "You're My Everything 🌟",
-                url: "https://res.cloudinary.com/dsi8rmtfp/image/upload/v1793531297/IMG_6996_sznwts.png",
-                caption: "You are truly my everything, Choco!"
-            },
-            {
-                title: "Us Core 💕",
-                url: "https://res.cloudinary.com/dsi8rmtfp/image/upload/v1793531280/IMG_7003_qrm7iz.png",
-                caption: "Pure 'Us Core' moments!"
-            },
-            {
-                title: "Your Eyes Melt Me 👁️✨",
-                url: "https://res.cloudinary.com/dsi8rmtfp/image/upload/v1793531275/IMG_7006_kkkpri.png",
-                caption: "Your eyes always melt my heart."
-            },
-            {
-                title: "Sorry Babe... 🥺",
-                url: "https://res.cloudinary.com/dsi8rmtfp/image/upload/v1793531265/IMG_6999_uxbmgt.png",
-                caption: "When I realize mene galat kiya... sorry babe ❤️"
-            },
-            {
-                title: "Together Always & Forever 💍",
-                url: "https://res.cloudinary.com/dsi8rmtfp/image/upload/v1793531264/IMG_7008_vr1dyr.png",
-                caption: "Now it's final—we are together always!"
-            },
-            {
-                title: "Cute Memory Cube 📸",
-                url: "https://res.cloudinary.com/dsi8rmtfp/image/upload/v1793530621/15b6de8a-5bda-4568-afa6-7b29980bf491_jdisge.jpg",
-                caption: "Sweet little square snapshot."
-            },
-            {
-                title: "My Pretty Choco 🌸",
-                url: "https://res.cloudinary.com/dsi8rmtfp/image/upload/v1793530620/6d5e1385-bc46-4a49-91cf-de0372e2099c_by5n8l.jpg",
-                caption: "Portrait of my favorite girl."
-            },
-            {
-                title: "Forever Love 💖",
-                url: "https://res.cloudinary.com/dsi8rmtfp/image/upload/v1793530621/IMG_0936_v2qkfq.jpg",
-                caption: "Here is to endless anniversaries together!"
-            }
-        ];
-
-        /* ----------------------------------------------------
-           2. POEMS & STORY STEPS
+           1. POEMS & STORYBOOK DATA
         ---------------------------------------------------- */
         const storyCards = [
             {
@@ -411,14 +319,14 @@
                 title: "Happy 2nd Anniversary! 🍫💖",
                 subtitle: "Nov 2, 2024 ➔ Nov 2, 2026",
                 content: `
-                    <div class="space-y-3">
+                    <div class="space-y-4">
                         <div class="text-4xl animate-pulse">🎂🌹</div>
-                        <h2 class="text-2xl font-cute text-pink-300">To My Sweetest Cheshta (Choco)</h2>
-                        <p class="text-sm text-gray-200 leading-relaxed max-w-xs mx-auto">
-                            Two years ago on <span class="font-bold text-pink-400">2nd November 2024</span>, my life became infinitely brighter because you walked into it.
+                        <h2 class="text-3xl font-cute text-rose-deep">To My Dearest Cheshta (Choco)</h2>
+                        <p class="text-base text-gray-700 leading-relaxed max-w-md mx-auto">
+                            Two years ago on <span class="font-bold text-rose-deep">2nd November 2024</span>, my life got sweeter, happier, and infinitely more beautiful because you walked into it. 
                         </p>
-                        <p class="text-xs font-semibold text-pink-200 italic">
-                            "You are the sweetest part of my everyday life!"
+                        <p class="text-sm font-semibold text-choco italic">
+                            "You are the sweetest part of my everyday life, my little Choco!"
                         </p>
                     </div>
                 `
@@ -428,52 +336,55 @@
                 title: "My Heart's Poem For You 📜✨",
                 subtitle: "Written straight from my soul",
                 content: `
-                    <div class="space-y-2 font-handwriting text-xl text-pink-100 leading-relaxed">
-                        <p class="text-pink-300 font-bold">"Tere aane se zindagi me mehak si aayi hai,"</p>
+                    <div class="space-y-3 font-handwriting text-xl sm:text-2xl text-choco leading-relaxed">
+                        <p class="text-rose-deep font-bold">"Tere aane se zindagi me mehak si aayi hai,"</p>
                         <p>"Har lamhe me jaise koi mithaas chaayi hai."</p>
                         <p>"Do saal beet gaye lagta hai abhi kal ki baat hai,"</p>
-                        <p class="text-pink-300 font-bold">"Tu saath hai toh har din ek nayi raahat hai!"</p>
+                        <p class="text-rose-deep font-bold">"Tu saath hai toh har din ek nayi raahat hai!"</p>
+                        <div class="text-sm font-sans text-gray-500 font-semibold mt-4">
+                            (Press next to read more memory notes... 💖)
+                        </div>
                     </div>
                 `
             },
             {
                 step: 3,
-                title: "730 Days of Sweet Love 🌸",
-                subtitle: "Why You Mean Everything",
+                title: "Why You Mean The World To Me 🌸",
+                subtitle: "730 Days of Endless Laughs & Love",
                 content: `
-                    <div class="space-y-3">
-                        <div class="grid grid-cols-2 gap-2 text-left text-[11px] font-bold">
-                            <div class="bg-pink-900/40 p-2.5 rounded-xl border border-pink-400/20 text-pink-200 flex items-center gap-1.5">
-                                <span>🍫</span> Sweetest Heart
+                    <div class="space-y-4 text-gray-700">
+                        <div class="grid grid-cols-2 gap-3 max-w-md mx-auto text-left text-xs font-bold">
+                            <div class="bg-pink-100/70 p-3 rounded-2xl flex items-center gap-2 text-rose-deep">
+                                <span class="text-lg">🍫</span> Always Sweet & Caring
                             </div>
-                            <div class="bg-pink-900/40 p-2.5 rounded-xl border border-pink-400/20 text-pink-200 flex items-center gap-1.5">
-                                <span>👑</span> My Queen
+                            <div class="bg-pink-100/70 p-3 rounded-2xl flex items-center gap-2 text-rose-deep">
+                                <span class="text-lg">👑</span> My Forever Queen
                             </div>
-                            <div class="bg-pink-900/40 p-2.5 rounded-xl border border-pink-400/20 text-pink-200 flex items-center gap-1.5">
-                                <span>💫</span> Comfort Place
+                            <div class="bg-pink-100/70 p-3 rounded-2xl flex items-center gap-2 text-rose-deep">
+                                <span class="text-lg">💫</span> My Comfort Place
                             </div>
-                            <div class="bg-pink-900/40 p-2.5 rounded-xl border border-pink-400/20 text-pink-200 flex items-center gap-1.5">
-                                <span>💌</span> Best Friend
+                            <div class="bg-pink-100/70 p-3 rounded-2xl flex items-center gap-2 text-rose-deep">
+                                <span class="text-lg">💌</span> Best Friend Forever
                             </div>
                         </div>
-                        <p class="text-xs text-pink-200 font-semibold italic">
-                            "Through every laugh, fight, and late night—I choose you always."
+                        <p class="text-sm text-choco font-semibold italic max-w-md mx-auto">
+                            "Through every smile, fight, lazy day, and late-night conversation—I choose you over and over again."
                         </p>
                     </div>
                 `
             },
             {
                 step: 4,
-                title: "Ready For Our Memory Gallery? 📸✨",
-                subtitle: "Pre-loaded just for you!",
+                title: "Are You Ready For Our Memories? 📸✨",
+                subtitle: "Our Photo Gallery is Ready!",
                 content: `
-                    <div class="space-y-3">
-                        <div class="text-4xl animate-bounce">🎁🎉</div>
-                        <h3 class="text-xl font-cute text-pink-300">Our Story Is Waiting!</h3>
-                        <p class="text-xs text-gray-200 max-w-xs mx-auto">
-                            All 20 memory snaps have been preloaded into your phone's cache for seamless viewing!
+                    <div class="space-y-4">
+                        <div class="text-5xl animate-bounce">🎁🎉</div>
+                        <h3 class="text-2xl font-cute text-rose-deep">To Infinite Years Together!</h3>
+                        <p class="text-sm text-gray-700 max-w-md mx-auto">
+                            While you were reading these poems, I loaded our sweet memory photos into local memory so you won't face any lag!
                         </p>
-                        <button id="revealGalleryBtn" class="pulse-btn mt-2 bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 text-white font-extrabold px-6 py-2.5 rounded-full text-xs shadow-xl transition">
+                        <button id="revealGalleryBtn" class="pulse-btn mt-2 bg-gradient-to-r from-pink-500 via-rose-deep to-pink-600 text-white font-extrabold px-8 py-3 rounded-full text-base shadow-xl transform hover:scale-105 transition">
                             Open Memory Slideshow 💖
                         </button>
                     </div>
@@ -482,22 +393,45 @@
         ];
 
         /* ----------------------------------------------------
-           3. REASONS WHY I LOVE YOU POPUPS
+           2. REASONS WHY I LOVE YOU (SURPRISE POPUP)
         ---------------------------------------------------- */
         const loveReasons = [
-            "Your smile instantly brightens up my darkest days.",
-            "The way your eyes sparkle whenever you're excited.",
-            "You are the most caring and soft-hearted person in my life.",
+            "Your adorable smile can instantly cure any bad day I have.",
+            "The way your eyes sparkle whenever you are excited or happy.",
+            "You are the most caring and soft-hearted person in my entire life.",
             "How cute you look when you get angry or pout at me!",
-            "Because you are my Choco—sweet, irreplaceable, and my favorite!",
-            "You always understand me better than anyone else.",
-            "Our late-night chats that I never want to end."
+            "Because you are my Choco—sweet, irreplaceable, and my favorite treat!",
+            "You always listen to me and understand me better than anyone else.",
+            "Our endless late-night chats that I never want to end."
         ];
 
         /* ----------------------------------------------------
-           4. GLOBAL STATE VARIABLES
+           3. FALLBACK DEFAULT ROMANTIC PHOTOS
+        ---------------------------------------------------- */
+        const defaultPhotos = [
+            {
+                url: 'https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=800&q=80',
+                caption: 'Hand in hand, walking together forever 💖'
+            },
+            {
+                url: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=800&q=80',
+                caption: 'Two years of pure laughter and happiness ✨'
+            },
+            {
+                url: 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=800&q=80',
+                caption: 'To my dearest Choco—You make life magical 🍫'
+            },
+            {
+                url: 'https://images.unsplash.com/photo-1494774157365-9e04c6720e47?auto=format&fit=crop&w=800&q=80',
+                caption: 'Forever grateful for 2nd Nov 2024 🌹'
+            }
+        ];
+
+        /* ----------------------------------------------------
+           4. GLOBAL STATE
         ---------------------------------------------------- */
         let currentStoryStep = 0;
+        let photosVault = [];
         let loadedImageCache = [];
         let currentSlideIdx = 0;
         let slideshowInterval = null;
@@ -505,32 +439,54 @@
         let currentReasonIdx = 0;
 
         /* ----------------------------------------------------
-           5. INITIALIZATION
+           5. INITIALIZATION & LOCALSTORAGE MANAGEMENT
         ---------------------------------------------------- */
         window.addEventListener('load', () => {
             initStoryCard();
+            loadPhotosFromStorage();
             preloadImagesSilently();
             initLoveTimer();
             initParticles();
             setupEventListeners();
-            setupSwipeSupport();
         });
+
+        function loadPhotosFromStorage() {
+            const saved = localStorage.getItem('choco_anniversary_photos');
+            if (saved) {
+                try {
+                    photosVault = JSON.parse(saved);
+                } catch(e) {
+                    photosVault = defaultPhotos;
+                }
+            } else {
+                photosVault = defaultPhotos;
+            }
+            updateVaultGrid();
+        }
+
+        function savePhotosToStorage() {
+            localStorage.setItem('choco_anniversary_photos', JSON.stringify(photosVault));
+            preloadImagesSilently();
+            updateVaultGrid();
+        }
 
         /* ----------------------------------------------------
            6. SILENT BACKGROUND IMAGE PRELOADER
         ---------------------------------------------------- */
         function preloadImagesSilently() {
-            const statusText = document.getElementById('preloadStatusText');
+            const statusBadge = document.getElementById('preloadStatus');
+            statusBadge.classList.remove('hidden');
+
+            loadedImageCache = [];
             let loadedCount = 0;
 
-            storylineMemories.forEach((item) => {
+            photosVault.forEach((item, idx) => {
                 const img = new Image();
                 img.src = item.url;
                 img.onload = () => {
                     loadedCount++;
-                    statusText.textContent = `Cached ${loadedCount}/${storylineMemories.length}`;
-                    if (loadedCount === storylineMemories.length) {
-                        document.getElementById('preloadStatus').innerHTML = `<i class="fa-solid fa-circle-check text-green-400"></i> All Cached!`;
+                    if (loadedCount === photosVault.length) {
+                        statusBadge.innerHTML = `<i class="fa-solid fa-circle-check text-green-500"></i> All Images Preloaded!`;
                     }
                 };
                 img.onerror = () => {
@@ -541,7 +497,7 @@
         }
 
         /* ----------------------------------------------------
-           7. STORYBOOK CARD LOGIC
+           7. STORYBOOK CARD NAVIGATION LOGIC
         ---------------------------------------------------- */
         function initStoryCard() {
             renderStep(0);
@@ -556,28 +512,31 @@
             const nextBtn = document.getElementById('nextBtn');
             const stepNum = document.getElementById('currentStepNum');
 
+            // Fade animation
             cardContent.classList.add('opacity-0');
 
             setTimeout(() => {
                 stepNum.textContent = data.step;
                 cardContent.innerHTML = `
-                    <p class="text-[10px] font-bold text-pink-300 uppercase tracking-wider mb-1">${data.subtitle}</p>
-                    <h2 class="text-xl font-cute text-pink-200 mb-3">${data.title}</h2>
+                    <p class="text-xs font-bold text-choco uppercase tracking-wider mb-1">${data.subtitle}</p>
+                    <h2 class="text-2xl sm:text-3xl font-cute text-rose-deep mb-4">${data.title}</h2>
                     ${data.content}
                 `;
                 cardContent.classList.remove('opacity-0');
 
+                // Re-bind click event for special reveal button on step 4
                 const revealBtn = document.getElementById('revealGalleryBtn');
                 if (revealBtn) {
                     revealBtn.addEventListener('click', switchToSlideshowMode);
                 }
             }, 200);
 
+            // Button state updates
             if (stepIdx === 0) {
-                prevBtn.classList.add('opacity-40', 'cursor-not-allowed');
+                prevBtn.classList.add('opacity-50', 'cursor-not-allowed');
                 prevBtn.disabled = true;
             } else {
-                prevBtn.classList.remove('opacity-40', 'cursor-not-allowed');
+                prevBtn.classList.remove('opacity-50', 'cursor-not-allowed');
                 prevBtn.disabled = false;
             }
 
@@ -602,50 +561,62 @@
             currentSlideIdx = 0;
             renderSlide(currentSlideIdx);
             if (slideshowInterval) clearInterval(slideshowInterval);
-            slideshowInterval = setInterval(nextSlide, 4500);
+            slideshowInterval = setInterval(nextSlide, 4000);
             isPlayingSlideshow = true;
             updatePlayBtnUI();
         }
 
         function renderSlide(index) {
+            if (!photosVault || photosVault.length === 0) return;
+
             const imgEl = document.getElementById('slideshowImage');
-            const titleEl = document.getElementById('slideshowTitle');
             const captionEl = document.getElementById('slideshowCaption');
             const indexEl = document.getElementById('slideshowIndex');
 
-            const item = storylineMemories[index];
+            const item = photosVault[index];
 
+            // Smooth cross-fade transition effect
             imgEl.classList.add('opacity-30', 'scale-95');
             
             setTimeout(() => {
                 imgEl.src = item.url;
-                titleEl.textContent = item.title;
-                captionEl.textContent = item.caption;
-                indexEl.textContent = `(${index + 1}/${storylineMemories.length})`;
+                captionEl.textContent = item.caption || `"Forever with you, Choco ❤️"`;
+                indexEl.textContent = `Photo ${index + 1} of ${photosVault.length}`;
 
                 imgEl.classList.remove('opacity-30', 'scale-95');
-            }, 250);
+            }, 300);
         }
 
         function nextSlide() {
-            const nextIndex = currentSlideIdx + 1;
-            
-            // If reaching the end of the photos slideshow, trigger the Grand Finale Video popup!
-            if (nextIndex >= photosVault.length) {
-                currentSlideIdx = 0;
-                renderSlide(currentSlideIdx);
-                showFinaleModal();
-            } else {
-                currentSlideIdx = nextIndex;
-                renderSlide(currentSlideIdx);
-            }
+            currentSlideIdx = (currentSlideIdx + 1) % photosVault.length;
+            renderSlide(currentSlideIdx);
         }
 
-        function showFinaleModal() {
-            triggerHeartExplosion();
-            const finaleModal = document.getElementById('finaleModal');
-            if (finaleModal) {
-                finaleModal.classList.remove('hidden');
+        function prevSlide() {
+            currentSlideIdx = (currentSlideIdx - 1 + photosVault.length) % photosVault.length;
+            renderSlide(currentSlideIdx);
+        }
+
+        function toggleSlideshowPlay() {
+            if (isPlayingSlideshow) {
+                clearInterval(slideshowInterval);
+                isPlayingSlideshow = false;
+            } else {
+                slideshowInterval = setInterval(nextSlide, 4000);
+                isPlayingSlideshow = true;
+            }
+            updatePlayBtnUI();
+        }
+
+        function updatePlayBtnUI() {
+            const icon = document.getElementById('playIcon');
+            const text = document.getElementById('playText');
+            if (isPlayingSlideshow) {
+                icon.className = 'fa-solid fa-pause';
+                text.textContent = 'Pause Slideshow';
+            } else {
+                icon.className = 'fa-solid fa-play';
+                text.textContent = 'Auto-Play Slideshow';
             }
         }
 
@@ -659,7 +630,14 @@
                 const now = new Date();
                 const diff = now - startDate;
 
-                if (diff < 0) return;
+                if (diff < 0) {
+                    // In case system time is before start date
+                    document.getElementById('timerDays').textContent = '00';
+                    document.getElementById('timerHours').textContent = '00';
+                    document.getElementById('timerMins').textContent = '00';
+                    document.getElementById('timerSecs').textContent = '00';
+                    return;
+                }
 
                 const days = Math.floor(diff / (1000 * 60 * 60 * 24));
                 const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
@@ -677,7 +655,50 @@
         }
 
         /* ----------------------------------------------------
-           10. FLOATING PARTICLES CANVAS
+           10. PHOTO VAULT MODAL & BASE64 UPLOADER
+        ---------------------------------------------------- */
+        function updateVaultGrid() {
+            const grid = document.getElementById('photoGrid');
+            const countEl = document.getElementById('photoCount');
+            countEl.textContent = photosVault.length;
+
+            grid.innerHTML = '';
+            photosVault.forEach((item, idx) => {
+                const div = document.createElement('div');
+                div.className = 'relative group aspect-square rounded-xl overflow-hidden border border-pink-200 bg-pink-100';
+                div.innerHTML = `
+                    <img src="${item.url}" class="w-full h-full object-cover">
+                    <button onclick="deletePhoto(${idx})" class="absolute top-1 right-1 bg-red-500 text-white w-6 h-6 rounded-full text-xs opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                `;
+                grid.appendChild(div);
+            });
+        }
+
+        window.deletePhoto = function(idx) {
+            photosVault.splice(idx, 1);
+            savePhotosToStorage();
+        };
+
+        function handleFileUpload(files) {
+            Array.from(files).forEach(file => {
+                if (!file.type.startsWith('image/')) return;
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    photosVault.push({
+                        url: e.target.result,
+                        caption: `My beautiful Choco - ${file.name.replace(/\.[^/.]+$/, "")} 💖`
+                    });
+                    savePhotosToStorage();
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        /* ----------------------------------------------------
+           11. CANVAS FLOATING HEARTS & SPARKLES
         ---------------------------------------------------- */
         function initParticles() {
             const canvas = document.getElementById('particles-canvas');
@@ -691,24 +712,28 @@
             window.addEventListener('resize', resizeCanvas);
 
             const particles = [];
-            for (let i = 0; i < 20; i++) {
+            const particleCount = 25;
+
+            for (let i = 0; i < particleCount; i++) {
                 particles.push({
                     x: Math.random() * canvas.width,
                     y: Math.random() * canvas.height,
-                    size: Math.random() * 12 + 10,
-                    speedY: Math.random() * 0.8 + 0.3,
-                    speedX: Math.random() * 0.4 - 0.2,
-                    opacity: Math.random() * 0.7 + 0.3,
-                    symbol: ['💖', '🍫', '🌸', '✨', '💕'][Math.floor(Math.random() * 5)]
+                    size: Math.random() * 14 + 10,
+                    speedY: Math.random() * 1 + 0.5,
+                    speedX: Math.random() * 0.6 - 0.3,
+                    symbol: Math.random() > 0.4 ? '💖' : (Math.random() > 0.5 ? '✨' : '🍫'),
+                    opacity: Math.random() * 0.7 + 0.3
                 });
             }
 
             function animate() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
+
                 particles.forEach(p => {
                     ctx.globalAlpha = p.opacity;
                     ctx.font = `${p.size}px serif`;
                     ctx.fillText(p.symbol, p.x, p.y);
+
                     p.y -= p.speedY;
                     p.x += p.speedX;
 
@@ -717,50 +742,25 @@
                         p.x = Math.random() * canvas.width;
                     }
                 });
+
                 requestAnimationFrame(animate);
             }
             animate();
         }
 
         function triggerHeartExplosion() {
-            for (let i = 0; i < 25; i++) {
+            for (let i = 0; i < 30; i++) {
                 const heart = document.createElement('div');
                 heart.innerHTML = '💖';
                 heart.style.position = 'fixed';
                 heart.style.left = Math.random() * 100 + 'vw';
                 heart.style.top = '100vh';
-                heart.style.fontSize = (Math.random() * 18 + 18) + 'px';
+                heart.style.fontSize = (Math.random() * 20 + 20) + 'px';
                 heart.style.animation = `floatUp ${Math.random() * 2 + 2}s linear forwards`;
                 heart.style.zIndex = '9999';
                 document.body.appendChild(heart);
 
-                setTimeout(() => heart.remove(), 3500);
-            }
-        }
-
-        /* ----------------------------------------------------
-           11. MOBILE SWIPE GESTURE SUPPORT
-        ---------------------------------------------------- */
-        function setupSwipeSupport() {
-            const swipeArea = document.getElementById('swipeArea');
-            let startX = 0;
-            let endX = 0;
-
-            swipeArea.addEventListener('touchstart', (e) => {
-                startX = e.changedTouches[0].screenX;
-            }, false);
-
-            swipeArea.addEventListener('touchend', (e) => {
-                endX = e.changedTouches[0].screenX;
-                handleSwipe();
-            }, false);
-
-            function handleSwipe() {
-                if (startX - endX > 40) {
-                    nextSlide(); // Swiped left -> Next
-                } else if (endX - startX > 40) {
-                    prevSlide(); // Swiped right -> Prev
-                }
+                setTimeout(() => heart.remove(), 4000);
             }
         }
 
@@ -768,6 +768,7 @@
            12. EVENT LISTENERS
         ---------------------------------------------------- */
         function setupEventListeners() {
+            // Storybook Prev / Next
             document.getElementById('nextBtn').addEventListener('click', () => {
                 if (currentStoryStep < storyCards.length - 1) {
                     renderStep(currentStoryStep + 1);
@@ -780,21 +781,17 @@
                 }
             });
 
+            // Re-read story
             document.getElementById('backToStoryBtn').addEventListener('click', () => {
                 document.getElementById('slideshowSection').classList.add('hidden');
                 document.getElementById('storySection').classList.remove('hidden');
                 if (slideshowInterval) clearInterval(slideshowInterval);
             });
 
+            // Slideshow controls
             document.getElementById('slideNextBtn').addEventListener('click', nextSlide);
             document.getElementById('slidePrevBtn').addEventListener('click', prevSlide);
             document.getElementById('togglePlayBtn').addEventListener('click', toggleSlideshowPlay);
-
-            // Close Grand Finale Video Modal
-            const finaleModal = document.getElementById('finaleModal');
-            document.getElementById('closeFinaleBtn').addEventListener('click', () => {
-                finaleModal.classList.add('hidden');
-            });
 
             // Audio Player Toggle
             const musicBtn = document.getElementById('musicToggle');
@@ -808,15 +805,15 @@
                 if (!isPlayingAudio) {
                     bgMusic.play().then(() => {
                         isPlayingAudio = true;
-                        musicIcon.className = 'fa-solid fa-heart animate-bounce text-red-400';
+                        musicIcon.className = 'fa-solid fa-heart animate-bounce text-red-500';
                         musicText.textContent = 'Playing 💕';
                     }).catch(e => {
-                        console.log("Audio playback error:", e);
+                        console.log("Audio play prevented:", e);
                     });
                 } else {
                     bgMusic.pause();
                     isPlayingAudio = false;
-                    musicIcon.className = 'fa-solid fa-music text-pink-400';
+                    musicIcon.className = 'fa-solid fa-music text-pink-500';
                     musicText.textContent = 'Play Music';
                 }
             });
@@ -836,6 +833,52 @@
 
             closeReasonBtn.addEventListener('click', () => {
                 reasonModal.classList.add('hidden');
+            });
+
+            // Photo Vault Modal
+            const vaultModal = document.getElementById('vaultModal');
+            document.getElementById('openVaultBtn').addEventListener('click', () => {
+                vaultModal.classList.remove('hidden');
+            });
+            document.getElementById('closeVaultBtn').addEventListener('click', () => {
+                vaultModal.classList.add('hidden');
+            });
+            document.getElementById('saveVaultBtn').addEventListener('click', () => {
+                vaultModal.classList.add('hidden');
+                switchToSlideshowMode();
+            });
+
+            // Reset photos to default
+            document.getElementById('resetPhotosBtn').addEventListener('click', () => {
+                photosVault = [...defaultPhotos];
+                savePhotosToStorage();
+            });
+
+            // Drag and drop photo upload
+            const dropArea = document.getElementById('dropArea');
+            const photoInput = document.getElementById('photoInput');
+
+            photoInput.addEventListener('change', (e) => {
+                handleFileUpload(e.target.files);
+            });
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropArea.addEventListener(eventName, (e) => {
+                    e.preventDefault();
+                    dropArea.classList.add('bg-pink-100');
+                }, false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, (e) => {
+                    e.preventDefault();
+                    dropArea.classList.remove('bg-pink-100');
+                }, false);
+            });
+
+            dropArea.addEventListener('drop', (e) => {
+                const dt = e.dataTransfer;
+                handleFileUpload(dt.files);
             });
         }
     </script>
